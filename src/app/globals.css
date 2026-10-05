@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --header-h: 72px;
+    --font-sans: 'Plus Jakarta Sans';
+    --font-display: 'Anton';
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  ::selection {
+    @apply bg-accent text-accent-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.accent.DEFAULT');
+    outline-offset: 3px;
+  }
+
+  /* Anton tek ağırlıklı, dar ve yüksek bir başlık yazısıdır: hep büyük harf. */
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-normal uppercase;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* iOS'ta odakta yakınlaştırmayı önler */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply container;
+  }
+
+  .section {
+    @apply py-14 sm:py-20;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-hazard;
+  }
+
+  /* --- Düğmeler: tek birincil eylem, belirgin durumlar, min 44px dokunma alanı --- */
+  .btn {
+    @apply inline-flex min-h-11 cursor-pointer select-none items-center justify-center gap-2 rounded-[4px] px-5 text-[13px] font-bold uppercase tracking-[0.08em] transition-[background-color,border-color,color,box-shadow,transform] duration-200 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-accent-ink hover:bg-accent-hover hover:shadow-glow;
+  }
+  .btn-secondary {
+    @apply btn border-2 border-fg bg-transparent text-fg hover:bg-fg hover:text-bg;
+  }
+  .btn-ghost {
+    @apply btn text-muted hover:bg-surface-2 hover:text-fg;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-xs font-semibold text-fg;
+  }
+  .field {
+    @apply min-h-11 w-full rounded-[4px] border border-line-strong bg-surface px-3.5 py-2.5 text-fg outline-none transition-colors placeholder:text-subtle hover:border-subtle focus:border-accent focus-visible:outline-none disabled:opacity-60;
+  }
+  .field[aria-invalid='true'] {
+    @apply border-danger;
+  }
+  .field-error {
+    @apply mt-1 text-xs text-danger;
+  }
+  .field-hint {
+    @apply mt-1 text-xs text-muted;
+  }
+
+  .card {
+    @apply rounded-[6px] border border-line bg-surface;
+  }
+
+  .chip {
+    @apply inline-flex min-h-9 items-center gap-1.5 rounded-full border border-line-strong bg-transparent px-3.5 text-sm font-medium text-muted transition-colors hover:border-fg hover:text-fg;
+  }
+  .chip[aria-current='true'],
+  .chip[data-active='true'] {
+    @apply border-fg bg-fg text-bg;
+  }
+
+  .link {
+    @apply text-fg underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent;
+  }
+
+  /* Kağıt üstü ince çizgili defter dokusu — dekoratif, içerik değil. */
+  .bg-grid {
+    background-image: linear-gradient(to bottom, rgba(21, 23, 29, 0.06) 1px, transparent 1px);
+    background-size: 100% 36px;
+  }
+
+  /* Dikey yazı (Japon tipografisinden) — süs; ekran okuyucudan gizlenir. */
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .num {
+    @apply font-display tabular-nums;
+  }
+
+  .prose-dark {
+    @apply text-[15px] leading-7 text-muted;
+  }
+  .prose-dark h2,
+  .prose-dark h3 {
+    @apply mb-2 mt-6 text-fg;
+  }
+  .prose-dark p + p {
+    @apply mt-3;
+  }
+  .prose-dark strong {
+    @apply font-semibold text-fg;
+  }
+  .prose-dark ul {
+    @apply my-3 list-disc space-y-1 pl-5;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
