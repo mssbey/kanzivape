@@ -45,6 +45,7 @@ export default async function CategoryPage({ params, searchParams }: { params: P
       page={Number(query.sayfa) || 1}
       basePath={`/kategori/${category.slug}`}
       params={query}
+      activeRootSlug={trail[0]?.slug}
     >
       {children.length > 0 && (
         <nav aria-label="Alt kategoriler" className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">

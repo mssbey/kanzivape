@@ -16,8 +16,8 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Ca
 
   return (
     <CatalogView
-      title="Kampanyalar"
-      eyebrow="Fırsatlar"
+      title="İndirim"
+      eyebrow="Kampanyalar"
       description="İndirimli fiyatlar stoklarla sınırlıdır."
       crumbs={[{ label: 'Kampanyalar' }]}
       products={products}

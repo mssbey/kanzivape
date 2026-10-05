@@ -153,6 +153,12 @@ export function ProductBuyBox({ product, children }: { product: ProductDetailDat
             </fieldset>
           ))}
 
+          {variant?.sku && (
+            <p className="mt-4 text-xs text-muted">
+              Stok kodu: <span className="font-semibold tabular-nums text-fg">{variant.sku}</span>
+            </p>
+          )}
+
           <div className="mt-6 hidden items-center gap-3 lg:flex">
             <QuantityStepper value={quantity} onChange={setQuantity} max={maxQty} label={product.name} />
             <button type="button" className="btn-primary h-14 flex-1" onClick={addToCart} disabled={!canBuy}>

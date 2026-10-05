@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { getFlavorProfiles } from '@/server/catalog/flavor-profiles';
+import { flavorProfileLabel } from '@/lib/flavor-profiles';
 import { notFound } from 'next/navigation';
 import { draftMode } from 'next/headers';
 import { Eye, Minus, Plus } from 'lucide-react';
@@ -52,7 +55,15 @@ export default async function ProductPage({ params }: { params: Params }) {
   const node = product.categoryIds[0] ? await getCategoryById(product.categoryIds[0]) : undefined;
   const trail = node ? await getCategoryTrail(node) : [];
   const crumbs: Crumb[] = [...trail.map((c) => ({ label: c.name, href: `/kategori/${c.slug}` })), { label: product.name }];
-  const related = await getRelated(product);
+  const [related, profiles, productCategories] = await Promise.all([
+    getRelated(product),
+    getFlavorProfiles(),
+    Promise.all(product.categoryIds.map((id) => getCategoryById(id))),
+  ]);
+  const profileLabel = (id: string) => flavorProfileLabel(profiles, id);
+  // Yalnız tanımlı profiller gösterilir (silinen profilin kimliği üründe kalmış olabilir).
+  const productProfiles = product.flavorProfiles.filter((id) => profiles.some((p) => p.id === id));
+  const categories = productCategories.filter((c): c is NonNullable<typeof c> => Boolean(c));
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -102,11 +113,60 @@ export default async function ProductPage({ params }: { params: Params }) {
                     {product.flavorNotes.map((n) => (
                       <li key={n.label} className="chip">
                         {n.label}
+                        {n.profile && <span className="text-[11px] text-subtle">· {profileLabel(n.profile)}</span>}
                       </li>
                     ))}
                   </ul>
                 </Section>
               )}
+              <Section title="Ürün bilgileri">
+                <dl className="divide-y divide-line text-sm">
+                  {product.series && (
+                    <div className="grid grid-cols-[120px_1fr] gap-4 py-3">
+                      <dt className="text-muted">Seri</dt>
+                      <dd className="font-medium">{product.series}</dd>
+                    </div>
+                  )}
+                  {productProfiles.length > 0 && (
+                    <div className="grid grid-cols-[120px_1fr] gap-4 py-3">
+                      <dt className="text-muted">Tat profili</dt>
+                      <dd className="font-medium">{productProfiles.map(profileLabel).join(', ')}</dd>
+                    </div>
+                  )}
+                  {categories.length > 0 && (
+                    <div className="grid grid-cols-[120px_1fr] gap-4 py-3">
+                      <dt className="text-muted">Kategori</dt>
+                      <dd className="flex flex-wrap gap-x-3 gap-y-1">
+                        {categories.map((c) => (
+                          <Link key={c.id} href={`/kategori/${c.slug}`} className="link font-medium">
+                            {c.name}
+                          </Link>
+                        ))}
+                      </dd>
+                    </div>
+                  )}
+                  {product.variants.length > 1 && (
+                    <div className="grid grid-cols-[120px_1fr] gap-4 py-3">
+                      <dt className="text-muted">Seçenekler</dt>
+                      <dd className="font-medium">
+                        {product.options.map((o) => `${o.name}: ${o.values.map((v) => v.label).join(', ')}`).join(' · ')}
+                      </dd>
+                    </div>
+                  )}
+                  {product.tags.length > 0 && (
+                    <div className="grid grid-cols-[120px_1fr] gap-4 py-3">
+                      <dt className="text-muted">Etiketler</dt>
+                      <dd className="flex flex-wrap gap-1.5">
+                        {product.tags.map((t) => (
+                          <Link key={t} href={`/arama?q=${encodeURIComponent(t)}`} className="chip min-h-8 px-3 text-xs">
+                            #{t}
+                          </Link>
+                        ))}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </Section>
               {product.faq.length > 0 && (
                 <Section title="Sık sorulanlar">
                   <dl className="space-y-4">

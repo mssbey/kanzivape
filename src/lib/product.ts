@@ -58,6 +58,8 @@ export interface ProductDetailData extends ProductCardData {
   flavorNotes: FlavorNote[];
   /** 0–10 arası tat değerleri (panelde girilir); hepsi 0 ise gösterilmez. */
   taste: TasteRadar;
+  /** Panelde işaretlenen tat profili kimlikleri (Meyveli, Ferah…). */
+  flavorProfiles: string[];
   faq: { question: string; answer: string }[];
   categoryIds: string[];
   tags: string[];
@@ -147,6 +149,7 @@ export function toDetail(p: AdminProduct): ProductDetailData {
     })),
     flavorNotes: p.flavorNotes,
     taste: p.taste,
+    flavorProfiles: p.flavorProfiles,
     faq: p.faq.map((f) => ({ question: f.question, answer: f.answer })),
     categoryIds: p.categoryIds,
     tags: p.tags,

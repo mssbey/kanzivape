@@ -16,8 +16,9 @@ export default async function ProductsPage({ searchParams }: { searchParams: Cat
 
   return (
     <CatalogView
-      title="Tüm ürünler"
-      eyebrow="Mağaza"
+      title="Mağaza"
+      eyebrow="Tüm ürünler"
+      description="Az ama doğru: tadıp seçtiğimiz likitler, pod sistemler ve aksesuarlar. Stokta olanlar ve indirimdekiler için filtreleri kullan."
       crumbs={[{ label: 'Tüm ürünler' }]}
       products={products}
       sort={sort}
