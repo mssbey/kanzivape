@@ -2,7 +2,7 @@ const ITEMS = [
   { title: 'Seçerek satarız', text: 'Raftaki her ürünü tadıp listeye alıyoruz; sayıdan çok isabet.' },
   { title: 'Gizli paket', text: 'Dışarıdan içeriği belli olmayan, sızdırmaz ve darbe emici paketleme.' },
   { title: 'Hızlı kargo', text: 'Siparişler 1–3 iş günü içinde kargoya verilir, takip numarası e-postayla gelir.' },
-  { title: 'Güvenli ödeme', text: '3D Secure kart, havale/EFT ve kapıda ödeme. Kart bilgin bizde tutulmaz.' },
+  { title: 'Güvenli ödeme', text: '3D Secure kart ve havale/EFT. Kart bilgin bizde tutulmaz.' },
 ];
 
 /** Numaralı ilkeler tablosu — çizgili, kartsız. */

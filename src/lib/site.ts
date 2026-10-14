@@ -18,7 +18,7 @@ export const site = {
   },
   announcements: [
     'Satışlar yalnızca 18 yaş ve üzeri kullanıcılara yapılır',
-    'Kredi kartına taksit · havale/EFT · kapıda ödeme',
+    '3D Secure kart · havale/EFT ile güvenli ödeme',
     'Her sipariş sızdırmaz ve gizli paketle gönderilir',
   ],
 } as const;

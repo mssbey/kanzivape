@@ -96,7 +96,6 @@ function FactsTicker({ productCount }: { productCount: number }) {
     ['Kargo', '1–3 iş günü'],
     ['Ödeme', '3D Secure'],
     ['Paket', 'Gizli & sızdırmaz'],
-    ['Taksit', 'Kredi kartına'],
     ['Destek', 'Hafta içi her gün'],
   ];
   return (
